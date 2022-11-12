@@ -1,9 +1,10 @@
-const getDiscography = async (textResult) => {
-  console.log(textResult, 'result coté api');
+const getMusicVideo = async (artistID) => {
+  console.log('apifetch', artistID);
+
   // const apiKey = '2';
   // eslint-disable-next-line no-return-await
   return await fetch(
-    `https://theaudiodb.com/api/v1/json/2/discography.php?s=${textResult}`,
+    `https://theaudiodb.com/api/v1/json/2/mvid.php?i=${artistID}`,
     {},
   )
     .then((response) => {
@@ -11,4 +12,4 @@ const getDiscography = async (textResult) => {
     })
     .catch((error) => console.log(error));
 };
-export default getDiscography;
+export default getMusicVideo;
