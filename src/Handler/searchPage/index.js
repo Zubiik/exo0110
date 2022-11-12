@@ -1,18 +1,32 @@
 import { React, useEffect, useState } from 'react';
 import getDiscography from '../../Utils/API/GET/getDiscography';
+import getMusicVideo from '../../Utils/API/GET/getMusicVideo';
+import RandomBox from '../../component/randomBox/index';
+import MusicVideo from '../../component/MusicVideo';
 
 function Index() {
   const [discographyResearch, setDiscographyResearch] = useState();
-  const [discographyResult] = useState();
+  const [discographyResult, setDiscographyResult] = useState();
+  const [musicVideoData, setMusicVideoData] = useState('');
   const [textResult, setTextResult] = useState('');
+  const [artistID, setArtistID] = useState('');
 
   useEffect(() => {
     if (textResult !== '') {
       getDiscography(textResult).then((response) => {
-        console.log('coucou', response.result);
+        setDiscographyResult(response);
       });
     }
   }, [discographyResult, textResult]);
+  useEffect(() => {
+    console.log('hello', artistID.idArtist);
+    if (artistID !== '') {
+      getMusicVideo(artistID.idArtist).then((response) => {
+        setMusicVideoData(response.mvids);
+      });
+      console.log('musicVideoData', musicVideoData);
+    }
+  }, [artistID]);
 
   const HandleClick = () => {
     setTextResult(discographyResearch);
@@ -26,7 +40,9 @@ function Index() {
           setDiscographyResearch(event.target.value);
         }}
       ></input>
+      <MusicVideo musicVideoData={musicVideoData} />
       <button onClick={HandleClick}>x</button>
+      <RandomBox artistID={artistID} setArtistID={setArtistID} />
     </div>
   );
 }
